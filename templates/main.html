@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>Main</title>
+        <link href="css.css" rel="stylesheet">
+        <style type="text/css">
+            header{
+                margin-top: 10px;
+                margin-bottom: 0px;
+            }
+            .clock{
+                display: inline-block;
+                width: 30%;
+            }
+            .button{
+                position: fixed;
+                right: 5%;
+                background: palegoldenrod;
+            }
+            #button{
+                background-color: black; 
+                color: white; border: 2px solid white;
+                font-size: 15px;
+                padding: 7px 50px; 
+                border-radius: 5px;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="clock">
+                <span id="h2" style="font-size: 20px; ">2000년 00월 00일</span><br>
+                <h1><span id="h1" style="font-size: 80px;">00:00</span></h1>
+                <script src="clock.js"></script>
+            </div>
+            <span style="font-size: 25px;">의 금액은</span>
+            <span style="color: white; font-size: 90px;">10000</span>원
+            <span class="button">
+                <a href="/login_page">
+                    <input type="button" value="PIN" id="button">
+                </a>
+            </span>
+
+        </header>
+    </body>
+</html>
+<script type="text/javascript" src="key.js"></script> 
+

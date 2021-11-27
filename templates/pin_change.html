@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>Change PIN number</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <link href="css.css" rel="stylesheet">
+    <style type="text/css">
+        .header {
+            margin-left: 5%;
+            margin-top: 3%;
+        }
+
+        .form {
+            border: 1px solid gray;
+        }
+
+        .numKey {
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+            font-size: 30px;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+
+        .numberKeypad {
+            display: inline-block;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .PIN {
+            display: inline-block;
+            position: fixed;
+            right: 5%;
+        }
+
+        #number1, #number2 {
+            font-size: 25px;
+            background: black;
+            border: none;
+            border-bottom: 1px solid white;
+            color: white;
+        }
+
+        .goback, .pin_change {
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+            font-size: 15px;
+            line-height: 1.3;
+            border: none;
+            border-bottom: 1px solid white;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+    <body>
+        <header class="header">
+            <form action="nextPage.php" method="POST">
+                <div class="numberKeypad">
+                    <input type="button" value="1" class="numKey" onclick="NumberKeyDown(1)">
+                    <input type="button" value="2" class="numKey" onclick="NumberKeyDown(2)">
+                    <input type="button" value="3" class="numKey" onclick="NumberKeyDown(3)">
+                    <input type="button" value="back" class="numKey" onclick="BackKeyDown()"><br>
+                    <input type="button" value="4" class="numKey" onclick="NumberKeyDown(4)">
+                    <input type="button" value="5" class="numKey" onclick="NumberKeyDown(5)">
+                    <input type="button" value="6" class="numKey" onclick="NumberKeyDown(6)">
+                    <input type="button" value="Enter" class="numKey" onclick="EnterKeyDown()"><br>
+                    <input type="button" value="7" class="numKey" onclick="NumberKeyDown(7)">
+                    <input type="button" value="8" class="numKey" onclick="NumberKeyDown(8)">
+                    <input type="button" value="9" class="numKey" onclick="NumberKeyDown(9)"><br>
+                    <input type="button" value="  " class="numKey" style="border: none; padding-left: 12px;">
+                    <input type="button" value="0" class="numKey" onclick="NumberKeyDown(0)">
+                    <input type="button" value="  " class="numKey" style="border: none;">
+                </div>
+                <div class="PIN">
+                    PIN번호 변경<br><br>
+                    <label onclick="Get_preID('number1')">
+                        <input type="text" value="" placeholder="변경 전 PIN" class="pin_change"
+                               name="pinNum1" id="number1">
+                    </label>
+                    <br><br>
+                    <label onclick="Get_newID('number2')">
+                        <input type="text" value="" class="pin_change"
+                               placeholder="새로운 PIN" name="pinNum2" id="number2">
+                    </label>
+                    <br><br>
+                    <input type="button" value="PIN 변경하기" onclick="verification()">
+
+                    <a href="/login_page"><input type="button" value="이전으로"></a>
+                </div>
+            </form>
+        </header>
+        <section>
+            
+        </section>
+        <script type="text/javascript">            
+            var focus_id;
+
+            function Get_newID(id) { 
+                console.log(id);   
+                focus_id = id;
+            }
+            function Get_preID(id) {
+                console.log(id);
+                focus_id = id;
+            }
+
+            function verification() {
+                
+                console.log(number1.value)
+                console.log(number2.value)
+                if (!number1.value || !number2.value) {                    
+                    alert("이전 PIN와 새로운 PIN를 모두 입력해주세요.")
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/pin_change",
+                        data: { prepin: number1.value , newpin: number2.value },
+                        success: function (response) {
+                            {
+                                alert(response["msg"]);
+                            }
+                        }
+                    })
+                }
+                
+
+            }
+
+            
+            function BackKeyDown(){
+                if(focus_id == "number1"){
+                    number1.value = number1.value.substring(0, number1.value.length-1)
+                }
+                else{
+                    number2.value = number2.value.substring(0, number2.value.length-1)
+                }
+                number.value = number.value.substring(0, number.value.length-1)
+            }
+
+            function NumberKeyDown(num) {
+                if (focus_id == "number1" && (number1.value.length <4)){
+                    number1.value = number1.value+num;
+                }
+                else if (focus_id == "number2" && (number2.value.length < 4)){
+                    number2.value = number2.value+num;
+                }
+            }
+
+
+        </script> 
+    </body>
+</html>
